@@ -1,0 +1,77 @@
+﻿@page "/tictactoe"
+@inject HttpClient Http
+
+<h1>Tic-Tac-Toe</h1>
+
+@if (game == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (winner.HasValue)
+    {
+        <h2><span class="oi @(winner.Value ? "oi-x" : "oi-media-record")"></span> wins!</h2>
+    }
+    else if (game.Points.Any(point => !point.Value.HasValue))
+    {
+        <h2><span class="oi @(turn ? "oi-x" : "oi-media-record")"></span> to play</h2>
+    }
+    else
+    {
+        <h2>Cat's Game</h2>
+    }
+    <input type="number" value="@gameSize" @onchange="((e) => {gameSize = Convert.ToInt32(e.Value); ResetGame();})"/>
+    <button @onclick="(()=>ResetGame())">reset</button>
+    <table class="board">
+
+        @for (int i = 1; i <= gameSize; i++)
+        {
+            <tr>
+                @for (int j = 1; j <= gameSize; j++)
+                {
+                    <td>
+                        @{ var point = game.Points.Single(pt => pt.X == j && pt.Y == i);}
+                        @if (point.Value.HasValue)
+                        {
+                            <span class="oi @(point.Value.Value ? "oi-x" : "oi-media-record")"></span>
+                        }
+                        else if (!winner.HasValue)
+                        {
+                            <button @onclick="(()=>SetPointValue(point))">play</button>
+                        }
+
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    int gameSize = 3;
+    int cellSize = 50;
+    Game game;
+    bool turn = true;
+    bool? winner;
+    protected override async Task OnInitializedAsync()
+    {
+        ResetGame();
+    }
+
+    void SetPointValue(Point targetPoint)
+    {
+        targetPoint.Value = turn;
+        turn = !turn;
+
+        winner = game.ScoreGame();
+    }
+
+    void ResetGame()
+    {
+        game = new Game(gameSize);
+        turn = true;
+        winner = null;
+        this.StateHasChanged();
+    }
+}
