@@ -58,7 +58,7 @@ namespace InterviewTrivia
             else /// processing non-terminating elements
             {
                 /// more opens than closes means assign closeChar, 
-                /// SetParens recursive call with incremented pos, ame open count and increment close count
+                /// SetParens recursive call with incremented pos, same open count and increment close count
                 if (open > close)
                 {
                     str[pos] = closeChar;
