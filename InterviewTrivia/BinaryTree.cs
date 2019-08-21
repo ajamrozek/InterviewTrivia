@@ -8,6 +8,15 @@ namespace InterviewTrivia
     {
         public Node Root { get; set; }
         
+        public void Insert(int[] values)
+        {
+            foreach (var value in values)
+            {
+                Insert(value);
+            }
+        }
+
+
         public void Insert(int value)
         {
             var newNode = new Node()

@@ -21,10 +21,8 @@ namespace InterviewTrivia.Test
                 7, 11,17,3,42,13,11
             };
 
-            foreach (var seed in seedArray)
-            {
-                target.Insert(seed);
-            }
+            target.Insert(seedArray);
+            
             Assert.IsNotNull(target);
             Assert.AreEqual(7, target.Root.Value);
             Assert.AreEqual(3, target.Root.Left.Value);
@@ -58,10 +56,13 @@ namespace InterviewTrivia.Test
                 7, 11,17,3,42,13,11
             };
 
-            foreach (var seed in seedArray)
-            {
-                target.Insert(seed);
-            }
+            target.Insert(seedArray);
+
+            Assert.IsTrue(target.IsBST());
+
+            seedArray = new int[] { 3, 1, 2, 4, 5, 6, 7 };
+            target.Root = null;
+            target.Insert(seedArray);
 
             Assert.IsTrue(target.IsBST());
         }
