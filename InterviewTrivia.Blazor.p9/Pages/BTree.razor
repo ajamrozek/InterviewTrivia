@@ -1,0 +1,190 @@
+﻿@page "/btree"
+@using InterviewTrivia.BlazorApp.p9.Data
+@using Blazor.Extensions.Canvas
+
+<style>
+    .tree {
+        position: relative;
+        padding-top: 5px;
+    }
+
+    .node {
+        height: 25px;
+        width: 25px;
+        margin-left: 50%;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        position: absolute;
+    }
+
+    .treeEdge {
+        stroke: rgb(255,0,0);
+        stroke-width: 2;
+    }
+</style>
+
+<h1>AVL Tree</h1>
+@LineFragment
+Input String
+<input type="text" value="@model.InString"
+       @onchange="((e) => { model.InString = e.Value.ToString(); })" />
+<button @onclick="(() => Submit())">Reset</button>
+
+
+@if (model.NodeElements != null)
+{
+    @tree.Root.Value
+    @NodeFragment
+}
+
+
+
+@code {
+        BTreeModel model = new BTreeModel() { InString = "41,94,36,	-26,-14,76,	61,	12,	-91,-89,-4,	18,	-28,-93,-44,-91,65,	21,	-20,73,	-5,	100,-43,79" };
+        AVLTree tree;
+        string inArray;
+    private RenderFragment NodeFragment;
+    int treeHeight;
+    int nodeSize = 30;
+    private RenderFragment LineFragment = builder =>
+    {
+        builder.AddMarkupContent(1, "<svg height='110' width='100'>" +
+            "<line x1='0' y1='0' x2='200' y2='200' style='stroke:rgb(255,0,0);stroke-width:2'></line>" +
+            "Sorry, your browser does not support inline SVG." +
+            "</svg> ");
+
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    private void Submit()
+    {
+        var inArray = model.InString
+            .Split(new char[] { ',' })
+            .Select(x => Convert.ToInt32(x));
+        ResetTree(inArray);
+
+    }
+
+    void ResetTree(IEnumerable<int> inArray)
+    {
+        tree = new AVLTree(inArray);
+        treeHeight = tree.GetHeight();
+
+        BuildNodeElements();
+        this.StateHasChanged();
+    }
+
+    void BuildNodeElements()
+    {
+        model.NodeElements = new List<NodeElement>();
+        AddNodeElement(tree.Root);
+        NodeFragment = builder =>
+        {
+            builder.OpenElement(1, "div");
+            builder.AddAttribute(1, "class", "tree");
+
+
+            NodeElement lastNode = null;
+            foreach (var nodeElement in model.NodeElements)
+            {
+                builder.OpenElement(2, "span");
+                builder.AddAttribute(1, "style", nodeElement.PositionStyle);
+                builder.AddAttribute(2, "class", "node");
+                builder.AddAttribute(3, "title", $"parent: {nodeElement.ParentValue}");
+
+                builder.AddContent(1, nodeElement.Value);
+                builder.CloseElement();
+
+                //AddLines(lastNode, nodeElement, builder);
+
+                if (lastNode != null)
+                {
+                    var leftDelta = Math.Abs(lastNode.Left - nodeElement.Left);
+
+                    builder.AddMarkupContent(1, $"<svg height='{nodeSize}' width='{leftDelta}' "+
+                    "style='position:absolute'>" +
+                    $"<line x1='{lastNode.Left}' y1='{lastNode.Top}' x2='{nodeElement.Left}' y2='{nodeElement.Top}' " +
+                    "style='stroke: rgb(255,0,0);stroke-width: 2;' ></line>" +
+                    "Sorry, your browser does not support inline SVG." +
+                    "</svg> ");
+                }
+
+                lastNode = nodeElement;
+
+            }
+            builder.CloseElement();
+        };
+    }
+
+    void AddNodeElement(Node currentNode, int depthOffset = 0, int parentValue = 0, int parentLeftPos = 0, int polarity = 1)
+    {
+        if (currentNode != null)
+        {
+            var exponent = treeHeight - depthOffset + 1;
+            var leftPos = depthOffset == 0 ? 0 :
+                Convert.ToInt32((polarity * Math.Pow(exponent, 2) * nodeSize)) + parentLeftPos;
+
+
+            var styleResult = $"top:{depthOffset * 30}px;left:{leftPos}px";
+            ((List<NodeElement>)model.NodeElements)
+                .Add(new NodeElement()
+                {
+                    PositionStyle = styleResult,
+                    Value = currentNode.Value,
+                    ParentValue = parentValue,
+                    Top = depthOffset * 30,
+                    Left = leftPos
+                });
+
+            AddNodeElement(currentNode.Left, depthOffset + 1, currentNode.Value, leftPos, -1);
+            AddNodeElement(currentNode.Right, depthOffset + 1, currentNode.Value, leftPos);
+        }
+    }
+
+    void AddLines(NodeElement parentNode, NodeElement currentNode, Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder)
+    {
+        if (parentNode != null)
+        {
+            //get parent top & left
+
+            //get current top left
+
+            // add line to points
+
+
+
+
+            //builder.OpenElement(3, "svg");
+            //builder.AddAttribute(1, "height", nodeSize);
+            //builder.AddAttribute(2, "width", leftDelta);
+
+
+
+            //builder.OpenElement(1, "line");
+            //builder.AddAttribute(1, "x1", parentNode.Left);
+            //builder.AddAttribute(2, "y1", parentNode.Top);
+            //builder.AddAttribute(3, "x2", currentNode.Left);
+            //builder.AddAttribute(4, "y2", currentNode.Top);
+            //builder.AddAttribute(5, "class", "treeEdge");
+
+            //builder.CloseElement();
+
+            //builder.AddMarkupContent(1, $"<line x1=\"{parentNode.Left}\" y1=\"{parentNode.Top}\" x2=\"{currentNode.Left}\" y2=\"{currentNode.Top}\"/>");
+
+
+            //builder.CloseElement();
+
+            ///<svg height="110" width="500">
+            ///<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+            ///Sorry, your browser does not support inline SVG.
+            ///</ svg >
+
+
+
+        }
+    }
+}

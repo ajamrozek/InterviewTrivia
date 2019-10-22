@@ -15,13 +15,13 @@ namespace InterviewTrivia.Test
         [TestMethod]
         public void BuildAndFindTest()
         {
-            var target = new BinaryTree();
+            var target = new AVLTree();
             var seedArray = new int[]
             {
                 7, 11,17,3,42,13,11
             };
 
-            target.Insert(seedArray);
+            //target.Insert(seedArray);
             
             Assert.IsNotNull(target);
             Assert.AreEqual(7, target.Root.Value);
@@ -50,19 +50,19 @@ namespace InterviewTrivia.Test
         [TestMethod] 
         public void IsBST_Test()
         {
-            var target = new BinaryTree();
+            var target = new AVLTree();
             var seedArray = new int[]
             {
                 7, 11,17,3,42,13,11
             };
 
-            target.Insert(seedArray);
+            //target.Insert(seedArray);
 
             Assert.IsTrue(target.IsBST());
 
             seedArray = new int[] { 3, 1, 2, 4, 5, 6, 7 };
             target.Root = null;
-            target.Insert(seedArray);
+            //target.Insert(seedArray);
 
             Assert.IsTrue(target.IsBST());
         }

@@ -1,0 +1,26 @@
+﻿@page "/avlTree"
+@inject HttpClient Http
+
+<h3>AVL Tree</h3>
+@if (tree == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+}
+@code {
+    AVLTree tree;
+    protected override async Task OnInitializedAsync()
+    {
+        ResetTree();
+    }
+
+
+    void ResetTree()
+    {
+        tree = new AVLTree();
+        this.StateHasChanged();
+    }
+
+}
