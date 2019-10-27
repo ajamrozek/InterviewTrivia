@@ -1,0 +1,36 @@
+﻿@using System.Linq
+@using InterviewTrivia.BlazorApp.p9.Data
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime;
+
+@foreach (var lineModel in LineModels)
+{
+    <line x1="@lineModel.Source[1]" y1="@lineModel.Source[0]"
+          x2="@lineModel.Destination[1]" y2="@lineModel.Destination[0]"
+          class='treeEdge'/>
+}
+
+@*<line class='treeEdge' 
+      x1="0" y1="0" x2="100" y2="100"/>*@
+<h1>@LineModels.Count()</h1>
+@code {
+    [Parameter]
+    public IEnumerable<LineModel> LineModels { get; set; }
+
+    [Parameter]
+    public IEnumerable<ElementReference> NodeRefs {get;set;}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        foreach(var nodeRef in NodeRefs){
+            await JSRuntime.InvokeAsync<object>("TreeFuncs.RegisterLine", nodeRef);
+        }
+    }
+  
+    @*protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeAsync<object>("TreeFuncs.RegisterLine");
+        }
+    }*@
+}

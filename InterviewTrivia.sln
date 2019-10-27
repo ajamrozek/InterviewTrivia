@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewTrivia.Test", "Int
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripleByte.TicTacToe", "TripleByte\TripleByte.TicTacToe.csproj", "{A21A0D3C-AE53-4640-A085-3E98FB73A412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterviewTrivia.BlazorApp.p9", "InterviewTrivia.Blazor.p9\InterviewTrivia.BlazorApp.p9.csproj", "{90FD5501-7A4A-40C4-B52E-E7E91471BC5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewTrivia.BlazorApp.p9", "InterviewTrivia.Blazor.p9\InterviewTrivia.BlazorApp.p9.csproj", "{90FD5501-7A4A-40C4-B52E-E7E91471BC5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

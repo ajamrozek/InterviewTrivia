@@ -13,7 +13,7 @@ namespace InterviewTrivia.BlazorApp.p9.Data
         [Required]
         public string InString { get; set; }
 
-        public IEnumerable<NodeElement> NodeElements {get;set;} 
+        public IEnumerable<NodeElement> NodeElements { get; set; }
     }
 
     public class NodeElement
@@ -22,6 +22,12 @@ namespace InterviewTrivia.BlazorApp.p9.Data
         public string PositionStyle { get; set; }
         public int Top { get; set; }
         public int Left { get; set; }
-        public int ParentValue { get; set; }
+        public NodeElement Parent { get; set; }
+    }
+
+    public class LineModel
+    {
+        public int[] Source { get; set; }
+        public int[] Destination { get; set; }
     }
 }

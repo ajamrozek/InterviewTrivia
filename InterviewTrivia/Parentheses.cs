@@ -11,7 +11,7 @@ namespace InterviewTrivia
         internal char openChar;
         internal char closeChar;
 
-        public Parenthesis(string paren = "()", int pairCount = 3)
+        public Parenthesis(string paren = "()", int numberOfSets = 3)
         {
             SetOpenCloseChars(paren);
 
@@ -19,9 +19,9 @@ namespace InterviewTrivia
             AllResults = new List<string>();
 
 
-            char[] str = new char[2 * pairCount];
+            char[] str = new char[2 * numberOfSets];
 
-            SetParenthesis(str, pairCount);
+            SetParenthesis(str, numberOfSets);
         }
 
         private void SetOpenCloseChars(string paren)
@@ -35,10 +35,10 @@ namespace InterviewTrivia
             closeChar = paren.ToCharArray()[1];
         }
 
-        internal void SetParenthesis(char[] str, int pos, int n, int open, int close)
+        internal void SetParenthesis(char[] str, int pos, int numberOfSets, int open, int close)
         {
             /// at the end
-            if (close == n)
+            if (close == numberOfSets)
             {
                 /// assign the possible combinations thus far to the workingResult
                 for (int i = 0; i < str.Length; i++)
@@ -62,23 +62,23 @@ namespace InterviewTrivia
                 if (open > close)
                 {
                     str[pos] = closeChar;
-                    SetParenthesis(str, pos + 1, n, open, close + 1);
+                    SetParenthesis(str, pos + 1, numberOfSets, open, close + 1);
                 }
 
                 /// opens less than the number of iterations means assign openChar, 
                 /// SetParens recursive call with incremented pos, incremented open count and same close count
-                if (open < n)
+                if (open < numberOfSets)
                 {
                     str[pos] = openChar;
-                    SetParenthesis(str, pos + 1, n, open + 1, close);
+                    SetParenthesis(str, pos + 1, numberOfSets, open + 1, close);
                 }
             }
         }
 
-        internal void SetParenthesis(char[] str, int n)
+        internal void SetParenthesis(char[] str, int numberOfSets)
         {
-            if (n > 0)
-                SetParenthesis(str, 0, n, 0, 0);
+            if (numberOfSets > 0)
+                SetParenthesis(str, 0, numberOfSets, 0, 0);
             return;
         }
 
