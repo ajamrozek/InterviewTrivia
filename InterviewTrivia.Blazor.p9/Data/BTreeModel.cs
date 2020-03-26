@@ -10,8 +10,8 @@ namespace InterviewTrivia.BlazorApp.p9.Data
     public class BTreeModel
     {
 
-        [Required]
         public string InString { get; set; }
+        public int InGenCount{ get; set; }
 
         public IEnumerable<NodeElement> NodeElements { get; set; }
     }

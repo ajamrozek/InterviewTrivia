@@ -11,7 +11,6 @@
 
 @*<line class='treeEdge' 
       x1="0" y1="0" x2="100" y2="100"/>*@
-<h1>@LineModels.Count()</h1>
 @code {
     [Parameter]
     public IEnumerable<LineModel> LineModels { get; set; }
@@ -25,12 +24,4 @@
             await JSRuntime.InvokeAsync<object>("TreeFuncs.RegisterLine", nodeRef);
         }
     }
-  
-    @*protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeAsync<object>("TreeFuncs.RegisterLine");
-        }
-    }*@
 }

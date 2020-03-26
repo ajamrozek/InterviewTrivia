@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewTrivia", "InterviewTrivia\InterviewTrivia.csproj", "{338C7917-EBF2-4FB7-81AE-94BDD5E10326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CS.Trivia", "InterviewTrivia\CS.Trivia.csproj", "{338C7917-EBF2-4FB7-81AE-94BDD5E10326}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewTrivia.Test", "InterviewTrivia.Test\InterviewTrivia.Test.csproj", "{E372D415-D0D7-489F-9DAD-70A10F79F6D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CS.Trivia.Test", "InterviewTrivia.Test\CS.Trivia.Test.csproj", "{E372D415-D0D7-489F-9DAD-70A10F79F6D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripleByte.TicTacToe", "TripleByte\TripleByte.TicTacToe.csproj", "{A21A0D3C-AE53-4640-A085-3E98FB73A412}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewTrivia.BlazorApp.p9", "InterviewTrivia.Blazor.p9\InterviewTrivia.BlazorApp.p9.csproj", "{90FD5501-7A4A-40C4-B52E-E7E91471BC5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CS.Trivia.BlazorApp.p9", "InterviewTrivia.Blazor.p9\CS.Trivia.BlazorApp.p9.csproj", "{90FD5501-7A4A-40C4-B52E-E7E91471BC5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

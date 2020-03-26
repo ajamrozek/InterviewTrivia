@@ -40,6 +40,11 @@ Input String
 <input type="text" value="@model.InString"
        @onchange="((e) => { model.InString = e.Value.ToString(); })" />
 <button @onclick="(() => Submit())">Reset</button>
+<br />
+<input type="text" value="@model.InGenCount"
+       @onchange="((e) => { model.InGenCount = Convert.ToInt32(e.Value); })"/>
+<button @onclick="(() => SubmitGen())">Generate</button>
+
 
 
 @if (model.NodeElements != null)
@@ -52,12 +57,20 @@ Input String
 
 
 @code {
-    BTreeModel model = new BTreeModel() { InString = "41,94,36,	-26,-14,76,	61,	12,	-91,-89,-4,	18,	-28,-93,-44,-91,65,	21,	-20,73,	-5,	100,-43,79" };
+    //string bunchoNums = "1,2,3";// "41,94,36,	-26,-14,76,	61,	12,	-91,-89,-4,	18,	-28,-93,-44,-91,65,	21,	-20,73,	-5,	100,-43,79";
+    BTreeModel model = new BTreeModel() {
+        //InString = "41,94,36,	-26,-14,76,	61,	12,	-91,-89,-4,	18,	-28,-93,-44,-91,65,	21,	-20,73,	-5,	100,-43,79"
+        InString = "1,2,3"
+    };
     AVLTree tree;
     string inArray;
     private RenderFragment NodeFragment;
-    int treeHeight;
+    int treeDepth;
+    int treeBreadth;
     int nodeSize = 30;
+    IEnumerable<int> fibs;
+    int treeRenderedWidth;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,10 +87,20 @@ Input String
 
     }
 
+    private void SubmitGen()
+    {
+        var inArray = AutoBogus.AutoFaker.Generate<int>(model.InGenCount);
+        ResetTree(inArray);
+    }
+
     void ResetTree(IEnumerable<int> inArray)
     {
         tree = new AVLTree(inArray);
-        treeHeight = tree.GetHeight();
+        treeDepth = tree.GetHeight();
+        treeBreadth = tree.GetWidth();
+        treeRenderedWidth = nodeSize * treeBreadth * treeDepth;
+
+        fibs = new Fibonacci().GenRange(treeDepth+3).Skip(2);
 
         BuildNodeElements();
         this.StateHasChanged();
@@ -86,7 +109,9 @@ Input String
     void BuildNodeElements()
     {
         model.NodeElements = new List<NodeElement>();
-        AddNodeElement(tree.Root);
+        AddNodeElement(tree.Root, treeRenderedWidth);
+
+
         var linesStringBuilder = new System.Text.StringBuilder();
         List<LineModel> lineModels = new List<LineModel>();
         List<ElementReference> nodeRefs = new List<ElementReference>();
@@ -136,7 +161,7 @@ Input String
 
             builder.OpenElement(2, "svg");
             builder.AddAttribute(1, "id", "linesSvg");
-            builder.AddAttribute(2, "style", $"left:{minLeft}px");
+            builder.AddAttribute(2, "style", $"left:{minLeft}px;height:{treeDepth*nodeSize*2}px");
             builder.AddAttribute(3, "width", $"{maxLeft - minLeft + 30}px");
 
             builder.OpenComponent(1, typeof(InterviewTrivia.BlazorApp.p9.Pages.TreeEdge));
@@ -150,13 +175,13 @@ Input String
         };
     }
 
-    void AddNodeElement(Node currentNode, int depthOffset = 0, NodeElement? parent = null, int parentLeftPos = 0, int polarity = 1)
+    void AddNodeElement(Node currentNode, int workingWidth, int depthOffset = 0, NodeElement? parent = null, int parentLeftPos = 0, int polarity = 1)
     {
         if (currentNode != null)
         {
-            var exponent = treeHeight - depthOffset + 1;
             var leftPos = depthOffset == 0 ? 0 :
-                Convert.ToInt32((polarity * Math.Pow(exponent, 2) * nodeSize)) + parentLeftPos;
+                Convert.ToInt32(polarity * (workingWidth)) + parentLeftPos;
+
             var styleResult = $"top:{depthOffset * 30}px;left:{leftPos}px";
 
             var currentNodeElement = new NodeElement()
@@ -171,9 +196,8 @@ Input String
             ((List<NodeElement>)model.NodeElements)
                 .Add(currentNodeElement);
 
-            AddNodeElement(currentNode.Left, depthOffset + 1, currentNodeElement, leftPos, -1);
-            AddNodeElement(currentNode.Right, depthOffset + 1, currentNodeElement, leftPos);
+            AddNodeElement(currentNode.Left, workingWidth/2, depthOffset + 1, currentNodeElement, leftPos, -1);
+            AddNodeElement(currentNode.Right, workingWidth/2, depthOffset + 1, currentNodeElement, leftPos);
         }
     }
-
 }

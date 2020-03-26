@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InterviewTrivia
 {
-    class Parenthesis
+    public class Parenthesis
     {
         private StringBuilder workingResult;
         public IEnumerable<string> AllResults { get; private set; }

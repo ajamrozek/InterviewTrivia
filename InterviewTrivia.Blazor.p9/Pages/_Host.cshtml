@@ -20,23 +20,7 @@
                     value: target.innerText, position: { top: target.getBoundingClientRect().top, left: target.getBoundingClientRect().left}
                 };
                 TreeFuncs.NodeOffsets.push(currentNodeOffset);
-                if (target.title) {
-
-                    var parentOffset = TreeFuncs.NodeOffsets.filter((nodeOffset) => {
-                        return nodeOffset.value == target.getAttribute("parent");
-                    })[0];
-
-                    var src = parentOffset.position.left < currentNodeOffset.position.left ? parentOffset : currentNodeOffset;
-                    var dest = parentOffset.position.left < currentNodeOffset.position.left ? currentNodeOffset : parentOffset ;
-
-                    var newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    newLine.setAttribute('x1', src.position.left);
-                    newLine.setAttribute('y1', src.position.top);
-                    newLine.setAttribute('x2', dest.position.left);
-                    newLine.setAttribute('y2', dest.position.top);
-                    newLine.setAttribute("stroke", "blue")
-                    TreeFuncs.GetSvg().append(newLine);
-                }
+                
             }
         }
     </script>

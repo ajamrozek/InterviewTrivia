@@ -142,6 +142,28 @@ namespace InterviewTrivia
             return result;
         }
 
+        public int GetWidth()
+        {
+            var result = 1;
+            var currentNode = Root;
+
+            while (currentNode != null)
+            {
+                result++;
+                currentNode = currentNode.Left;
+            }
+
+            currentNode = Root;
+
+            while (currentNode != null)
+            {
+                result++;
+                currentNode = currentNode.Right;
+            }
+
+            return result;
+        }
+
         private int GetHeight(Node current)
         {
             var height = 0;
@@ -169,6 +191,11 @@ namespace InterviewTrivia
             return result;
         }
 
+        /// <summary>
+        /// Pivot on target Left: pivot = target.Left; target.Left = pivot.Right; pivot.Right = target; return pivot;
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns>pivot<c></c></returns>
         private Node RotateRR(Node target)
         {
             var pivot = target.Left;
