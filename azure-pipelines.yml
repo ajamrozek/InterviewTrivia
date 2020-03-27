@@ -29,7 +29,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: '**/TESTOutput.xml'
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'Publishing App...'
