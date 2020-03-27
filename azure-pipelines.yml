@@ -26,7 +26,11 @@ steps:
   
 - script: dotnet test 
   displayName: 'dotnet test '
-  
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TEST-*.xml'
+
 #- task: DotNetCoreCLI@2
 #  displayName: 'Publishing App...'
 #  inputs:
