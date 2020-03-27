@@ -24,7 +24,7 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
   
-- script: dotnet test 
+- script: dotnet test -l:trx;LogFileName=TESTOutput.xml
   displayName: 'dotnet test '
 - task: PublishTestResults@2
   inputs:
