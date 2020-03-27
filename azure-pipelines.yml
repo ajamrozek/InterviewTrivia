@@ -23,13 +23,16 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  
-- script: dotnet test --no-build -t -v d -l:trx;LogFileName=TESTOutput.xml
-  displayName: 'dotnet test '
-- task: PublishTestResults@2
+
+- task: VSTest@2
   inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TestResults/TESTOutput.xml'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'Publishing App...'
