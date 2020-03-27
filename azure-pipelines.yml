@@ -24,12 +24,12 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
   
-- script: dotnet test -l:trx;LogFileName=TESTOutput.xml
+- script: dotnet test --no-build -t -v d -l:trx;LogFileName=TESTOutput.xml
   displayName: 'dotnet test '
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TESTOutput.xml'
+    testResultsFiles: '**/TestResults/TESTOutput.xml'
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'Publishing App...'
