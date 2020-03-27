@@ -9,50 +9,39 @@ namespace CS.Trivia.Codility
     {
         public int solution(string[] A)
         {
-            var workingResult = 0;
-            var maxResult = 0;
+            var maxLength = 0;
+            
+            // get all distinct charactered items
+            var baseSet = A.Where(itemA => itemA.Distinct().Count() == itemA.Length); 
 
-            var workingDictionary = new Dictionary<string, bool>();//unused value, mostly care about the keys
-            var candidateList = new List<string>();
+            // use the base set to drive the "ommitted" value 
+            foreach (var item in baseSet) 
+            {
+                // set the base result for all items except the ommited value
+                var baseResult = baseSet.Where(itemB => itemB != item);
 
-
-
-            //make the candidates. insert them into the workingDictionary if not there
-            foreach (var itemA in A)
-            {                
-
-                foreach (var itemB in A.Where(x => x != itemA))
-                {
-                    var candidate = $"{itemA}{itemB}";//fizzbuzz
-
-                    if (!candidateList.Contains(itemB))
+                // set the final result to the remaining items that contain unique characters.
+                // drop any items that contain a char already in the result
+                var result = string.Join(string.Empty,
+                    baseResult.Where((itemB) =>
                     {
+                        // all items not the current item
+                        var altResult = baseResult.Where(itemC => itemC != itemB);
 
-                    }
+                        // drop the item if it has a non-unique char
+                        return !itemB.ToCharArray()
+                            .Any(charB => string.Join(string.Empty, altResult).Contains(charB));
+                    }));
 
-
-                    if(candidate.Distinct().Count() != candidate.Length)//need distinct letters
-                    {
-                        continue;
-                    }
-
-                    if (!workingDictionary.ContainsKey(candidate))
-                    {
-                        workingDictionary.Add(candidate, true);
-                    }
-
-                    candidate = $"{itemB}{itemA}";//buzzfizz
-                    if (!workingDictionary.ContainsKey(candidate))
-                    {
-                        workingDictionary.Add(candidate, true);
-                    }
-                }
+                // set the maxLength if a new champion is detected
+                maxLength = result.Length > maxLength ? result.Length : maxLength;
             }
 
-            maxResult = workingDictionary.Count == 0 ? 0 : workingDictionary.Keys.Select(key => key.Length).Max();
-            
-
-            return maxResult;
+            return maxLength;
         }
+
+
+
+
     }
 }
