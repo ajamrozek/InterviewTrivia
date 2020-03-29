@@ -21,7 +21,15 @@ namespace InterviewTrivia
 
         public Node Root { get; set; }
 
-        public void Add(int data)
+        public void Add(int[] data)
+        {
+            foreach (var value in data)
+            {
+                this.Add(value);
+            }
+        }
+
+            public void Add(int data)
         {
             Node newItem = new Node() { Value = data };
             if (Root == null)
@@ -30,7 +38,7 @@ namespace InterviewTrivia
             }
             else
             {
-                Root = RecursiveInsert(Root, newItem);
+                Root = Root.Value == newItem.Value ? Root : RecursiveInsert(Root, newItem);
             }
         }
         private Node RecursiveInsert(Node current, Node target)
@@ -41,6 +49,7 @@ namespace InterviewTrivia
                 current = target;
                 return current;
             }
+
             
             //find the next open spot
             //on the left if the target is less than current

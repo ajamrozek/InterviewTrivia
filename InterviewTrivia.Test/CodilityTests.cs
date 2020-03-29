@@ -69,6 +69,7 @@ namespace CS.Trivia.Test
 
         [DataTestMethod]
         [DataRow(new[] { 1, 3, 2, 1, 2, 1, 5, 3, 3, 4, 2 }, 2)]
+        [DataRow(new[] { 5,8 }, 0)]
         public void FloodDepth(int[] source, int expectedResult)
         {
             var target = new FloodDepth();
