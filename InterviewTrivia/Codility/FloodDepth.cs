@@ -10,25 +10,25 @@ namespace CS.Trivia.Codility
     {
         public int solution(int[] A)
         {
-            var maxHeight = 0;
-            var minHeight = 0;
+            var maxValue = 0;
+            var minValue = 0;
             var maxDepth = 0;
             var depth = 0;
 
             foreach (var itemA in A)
             {
-                if(itemA > maxHeight)
+                if(itemA > maxValue) // new peak
                 {
-                    depth = maxHeight - minHeight;
-                    maxHeight = minHeight = itemA;
+                    depth = maxValue - minValue;
+                    maxValue = minValue = itemA; // reset min to max
                 }
-                else if(itemA < minHeight)
+                else if(itemA < minValue) // new valley
                 {
-                    minHeight = itemA;
+                    minValue = itemA;
                 }
-                else
+                else // depth calc: current - lowest
                 {
-                    depth = itemA - minHeight;
+                    depth = itemA - minValue;
                 }
 
                 maxDepth = depth > maxDepth ? depth : maxDepth;
