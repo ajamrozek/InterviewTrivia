@@ -28,5 +28,21 @@ namespace CS.Trivia
                 }
             }
         }
+
+
+        public void TimesTableX(int size)
+        {
+            Result = new int[size, size];
+
+            
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Result[i, j] = i+1*j+1;
+                }
+            }
+        }
+
     }
 }
